@@ -19,7 +19,7 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String getposts(Model model){
+    public String getPosts(Model model){
         // service를 통해 model을 모두 불러온다.
         model.addAttribute("posts" , postService.findAllDesc());
         return "/post/postList";
@@ -31,6 +31,7 @@ public class PostController {
 
         return "/post/writingPost";
     }
+
 
     @PostMapping
     public String addPost(@ModelAttribute PostSaveRequestDto postSaveRequestDto){
