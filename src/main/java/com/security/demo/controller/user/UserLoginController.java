@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping
 public class UserLoginController {
 
-    @GetMapping("/login")
+    @GetMapping({"/login" ,"/"})
     public String getLoginView(){
         return "/login/login";
     }
-
-
 
 }
