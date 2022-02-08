@@ -19,12 +19,15 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
     private Long id;
 
     private String username;
     private String password;
     private String nickName;
     private String role;
+
+
 
     @Builder
     public ApplicationUser(String username, String password, String nickName, String role) {
@@ -43,6 +46,8 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
         return ApplicationUserRole.valueOf(this.role).getGrantedAuthorities();
 
     }
+
+
 
     @Override
     public String getPassword() {
@@ -78,6 +83,7 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
         return role;
     }
 
-
-
+    public String getNickName() {
+        return nickName;
+    }
 }

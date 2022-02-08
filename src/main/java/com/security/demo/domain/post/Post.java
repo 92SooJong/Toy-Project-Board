@@ -1,14 +1,12 @@
 package com.security.demo.domain.post;
 
 import com.security.demo.domain.BaseTimeEntity;
+import com.security.demo.domain.user.ApplicationUser;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Entity
@@ -17,39 +15,40 @@ public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "post_id")
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private ApplicationUser applicationUser;
+
     @NotNull
-    private String writer;
+    private String postPassword;
 
     @NotNull
     private String title;
 
     private String content;
 
-    @Builder
-    public Post(Long id, String writer, String title, String content) {
-        this.id = id;
-        this.writer = writer;
-        this.title = title;
-        this.content = content;
-    }
-
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public ApplicationUser getApplicationUser() {
+        return applicationUser;
     }
 
-    public String getWriter() {
-        return writer;
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer;
+    public String getPostPassword() {
+        return postPassword;
+    }
+
+    public void setPostPassword(String postPassword) {
+        this.postPassword = postPassword;
     }
 
     public String getTitle() {
