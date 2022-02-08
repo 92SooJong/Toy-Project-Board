@@ -1,5 +1,6 @@
 package com.security.demo.domain.post;
 
+import com.security.demo.domain.BaseTimeEntity;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.Id;
 
 @Entity
 @NoArgsConstructor
-public class Post {
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,6 +1,6 @@
 package com.security.demo.config.security;
 
-import com.security.demo.domain.user.UserRepositoryUserDetailsService;
+import com.security.demo.service.user.UserRepositoryUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

@@ -1,10 +1,8 @@
 package com.security.demo.domain.user;
 
 import com.security.demo.config.security.ApplicationUserRole;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.security.demo.domain.BaseTimeEntity;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-public class ApplicationUser implements UserDetails {
+public class ApplicationUser extends BaseTimeEntity implements UserDetails {
 
 
     @Id
@@ -25,11 +23,14 @@ public class ApplicationUser implements UserDetails {
 
     private String username;
     private String password;
+    private String nickName;
     private String role;
 
-    public ApplicationUser(String username, String password, String role) {
+    @Builder
+    public ApplicationUser(String username, String password, String nickName, String role) {
         this.username = username;
         this.password = password;
+        this.nickName = nickName;
         this.role = role;
     }
 
