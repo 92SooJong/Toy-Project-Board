@@ -19,7 +19,6 @@ public class UserRegistrationController {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @GetMapping
     public String registerForm(Model model) {
         model.addAttribute("registerForm" , new RegistrationForm());

@@ -4,9 +4,13 @@ import com.security.demo.controller.post.dto.PostDto;
 import com.security.demo.controller.post.dto.PostSaveRequestDto;
 import com.security.demo.controller.user.dto.RegistrationForm;
 import com.security.demo.service.post.PostService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 @Controller
 @RequestMapping("/post")
@@ -20,7 +24,6 @@ public class PostController {
 
     @GetMapping("/list")
     public String getPosts(Model model){
-        // service를 통해 model을 모두 불러온다.
         model.addAttribute("posts" , postService.findAllDesc());
         return "/post/postList";
     }
@@ -28,13 +31,15 @@ public class PostController {
     @GetMapping("/writer")
     public String getPostWriter(Model model){
         model.addAttribute("savePostDto" , new PostSaveRequestDto());
-
         return "/post/writingPost";
     }
 
 
     @PostMapping
-    public String addPost(@ModelAttribute PostSaveRequestDto postSaveRequestDto){
+    public String addPost(@ModelAttribute PostSaveRequestDto postSaveRequestDto, Authentication authentication){
+
+        System.out.println("authentication = " + authentication.getName());
+
         postService.save(postSaveRequestDto);
         return "redirect:/post/list";
     }

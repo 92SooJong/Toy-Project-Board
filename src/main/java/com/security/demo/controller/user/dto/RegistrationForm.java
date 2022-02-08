@@ -17,6 +17,7 @@ public class RegistrationForm {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .nickName(nickname)
+                .role("USER")
                 .build();
     }
 

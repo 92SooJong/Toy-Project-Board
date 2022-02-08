@@ -11,16 +11,21 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PostSaveRequestDto {
 
-    private String writer;
+    private String nickname;
     private String title;
     private String content;
+    private String postPassword;
+    private String userId;
+    private String writer;
 
     public Post toEntity(){
-        return Post.builder()
-                .title(this.title)
-                .content(this.content)
-                .writer(this.writer)
-                .build();
+
+        return null;
+
+//        return Post.builder()
+//                .title(this.title)
+//                .content(this.content)
+//                .build();
     }
 
 
