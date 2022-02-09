@@ -27,8 +27,6 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
     private String nickName;
     private String role;
 
-
-
     @Builder
     public ApplicationUser(String username, String password, String nickName, String role) {
         this.username = username;

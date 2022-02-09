@@ -1,8 +1,7 @@
 package com.security.demo.controller.user;
 
-import com.security.demo.domain.user.UserRepository;
-import com.security.demo.controller.user.dto.RegistrationForm;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.security.demo.controller.user.dto.UserSaveRequestDto;
+import com.security.demo.service.user.UserRegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,23 +10,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user-registration")
 public class UserRegistrationController {
 
-    private UserRepository userRepo;
-    private PasswordEncoder passwordEncoder;
+    private UserRegistrationService userRegistrationService;
 
-    public UserRegistrationController(UserRepository userRepo , PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
+    public UserRegistrationController(UserRegistrationService userRegistrationService) {
+        this.userRegistrationService = userRegistrationService;
     }
 
     @GetMapping
     public String registerForm(Model model) {
-        model.addAttribute("registerForm" , new RegistrationForm());
+        model.addAttribute("userSaveRequestDto" , new UserSaveRequestDto());
         return "/login/userRegistration";
     }
 
     @PostMapping
-    public String processRegistration(@ModelAttribute RegistrationForm form) {
-        userRepo.save(form.toUser(passwordEncoder));
+    public String processRegistration(@ModelAttribute UserSaveRequestDto userSaveRequestDto) {
+
+        userRegistrationService.registerUser(userSaveRequestDto);
         return "redirect:/login";
     }
 

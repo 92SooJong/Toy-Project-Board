@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
-public class RegistrationForm {
+public class UserSaveRequestDto {
 
     private String username;
     private String nickname;
@@ -17,7 +17,7 @@ public class RegistrationForm {
                 .username(username)
                 .password(passwordEncoder.encode(password))
                 .nickName(nickname)
-                .role("USER")
+                .role("USER") // role은 USER로 하드코딩
                 .build();
     }
 

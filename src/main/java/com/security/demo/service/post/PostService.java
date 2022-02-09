@@ -3,6 +3,9 @@ package com.security.demo.service.post;
 import com.security.demo.controller.post.dto.PostDto;
 import com.security.demo.controller.post.dto.PostSaveRequestDto;
 import com.security.demo.domain.post.PostRepository;
+import com.security.demo.domain.user.ApplicationUser;
+import com.security.demo.domain.user.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,9 +16,13 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.postRepository = postRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -26,10 +33,11 @@ public class PostService {
     }
 
 
-    public void save(PostSaveRequestDto postSaveRequestDto, String name) {
+    public void save(PostSaveRequestDto postSaveRequestDto, String username) {
 
 
-
-        postRepository.save(postSaveRequestDto.toEntity());
+        ApplicationUser user = userRepository.findByUsername(username);
+        postSaveRequestDto.setApplicationUser(user);
+        postRepository.save(postSaveRequestDto.toEntity(passwordEncoder));
     }
 }
