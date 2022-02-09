@@ -26,7 +26,10 @@ public class PostService {
     }
 
 
-    public void save(PostSaveRequestDto postSaveRequestDto) {
+    public void save(PostSaveRequestDto postSaveRequestDto, String name) {
+
+
+
         postRepository.save(postSaveRequestDto.toEntity());
     }
 }

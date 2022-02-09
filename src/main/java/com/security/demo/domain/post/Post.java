@@ -31,6 +31,14 @@ public class Post extends BaseTimeEntity {
     private String content;
 
 
+    @Builder
+    public Post(ApplicationUser applicationUser, String postPassword, String title, String content) {
+        this.applicationUser = applicationUser;
+        this.postPassword = postPassword;
+        this.title = title;
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }
@@ -39,31 +47,22 @@ public class Post extends BaseTimeEntity {
         return applicationUser;
     }
 
-    public void setApplicationUser(ApplicationUser applicationUser) {
-        this.applicationUser = applicationUser;
-    }
 
     public String getPostPassword() {
         return postPassword;
     }
 
-    public void setPostPassword(String postPassword) {
-        this.postPassword = postPassword;
-    }
+
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+
 
     public String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+
 }

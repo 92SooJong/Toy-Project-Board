@@ -38,9 +38,8 @@ public class PostController {
     @PostMapping
     public String addPost(@ModelAttribute PostSaveRequestDto postSaveRequestDto, Authentication authentication){
 
-        System.out.println("authentication = " + authentication.getName());
 
-        postService.save(postSaveRequestDto);
+        postService.save(postSaveRequestDto, authentication.getName());
         return "redirect:/post/list";
     }
 
