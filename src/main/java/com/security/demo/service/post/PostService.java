@@ -1,7 +1,9 @@
 package com.security.demo.service.post;
 
 import com.security.demo.controller.post.dto.PostDto;
+import com.security.demo.controller.post.dto.PostReadResponseDto;
 import com.security.demo.controller.post.dto.PostSaveRequestDto;
+import com.security.demo.domain.post.Post;
 import com.security.demo.domain.post.PostRepository;
 import com.security.demo.domain.user.ApplicationUser;
 import com.security.demo.domain.user.UserRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,9 +38,18 @@ public class PostService {
 
     public void save(PostSaveRequestDto postSaveRequestDto, String username) {
 
-
         ApplicationUser user = userRepository.findByUsername(username);
         postSaveRequestDto.setApplicationUser(user);
         postRepository.save(postSaveRequestDto.toEntity(passwordEncoder));
+    }
+
+    public PostReadResponseDto findPostById(Long id) {
+        Post post = postRepository.findById(id).get();
+        return PostReadResponseDto.builder()
+                .title(post.getTitle())
+                .content(post.getContent())
+                .nickname(post.getApplicationUser().getNickName())
+                .build();
+
     }
 }

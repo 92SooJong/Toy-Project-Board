@@ -1,6 +1,8 @@
 package com.security.demo.controller.post;
 
+import com.security.demo.controller.post.dto.PostReadResponseDto;
 import com.security.demo.controller.post.dto.PostSaveRequestDto;
+import com.security.demo.domain.post.Post;
 import com.security.demo.service.post.PostService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -29,13 +31,21 @@ public class PostController {
         return "/post/writingPost";
     }
 
-
     @PostMapping
     public String addPost(@ModelAttribute PostSaveRequestDto postSaveRequestDto, Authentication authentication){
-
         postService.save(postSaveRequestDto, authentication.getName());
         return "redirect:/post/list";
     }
+
+    @GetMapping("/{id}")
+    public String getPost(@PathVariable Long id,Model model){
+
+        PostReadResponseDto postReadResponseDto = postService.findPostById(id);
+        model.addAttribute("postReadResponseDto" , postReadResponseDto);
+        return "/post/readingPost";
+    }
+
+
 
 
 }
