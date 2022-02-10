@@ -1,28 +1,23 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>Please sign in</title>
-
-    </head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="/layout/haeder :: myheader">
+</head>
     <body>
     <div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">제목</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">제목</label>
-            <input type="text" class="form-control" id="exampleFormControlInput2">
-        </div>
-
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">내용</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
-
+        <h1>게시글 읽기</h1>
+            <div class="mb-3">
+                <label for="input_title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="input_title" th:value="${postReadResponseDto.title}" />
+            </div>
+            <div class="mb-3">
+                <label for="input_password" class="form-label">닉네임</label>
+                <input type="text" class="form-control" id="input_password" th:value="${postReadResponseDto.nickname}"/>
+            </div>
+            <div class="mb-3">
+                <label for="textarea_content" class="form-label">내용</label>
+                <textarea class="form-control" id="textarea_content" rows="3" th:text="${postReadResponseDto.content}">
+                </textarea>
+            </div>
     </div>
 
 

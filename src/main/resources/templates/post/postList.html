@@ -1,13 +1,7 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
-        <title>Please sign in</title>
-
-    </head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="/layout/haeder :: myheader">
+</head>
     <body>
         <div class="container">
             <h1>게시판</h1>
@@ -28,7 +22,7 @@
                 <tbody>
                     <tr th:each="post : ${posts}">
                         <td th:text="${post.id}"></td>
-                        <td th:text="${post.title}"></td>
+                        <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a> </td>
                         <td th:text="${post.writer}"></td>
                     </tr>
                 </tbody>
