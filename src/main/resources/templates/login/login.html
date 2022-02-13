@@ -14,7 +14,7 @@
             </div>
 
             <div class="form-floating">
-                <input type="text" id="password" name="username" class="form-control" placeholder="password" required="" autofocus="">
+                <input type="text" id="password" name="password" class="form-control" placeholder="password" required="" autofocus="">
                 <label for="password">password</label>
             </div>
 
@@ -24,14 +24,14 @@
                 </label>
             </div>
 
-
             <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-
-            <a th:href="@{/user-registration}" >
-                <button class="w-100 btn btn-lg btn-primary">회원가입</button>
-            </a>
-
         </form>
 
+        <a th:href="@{/user-registration}" >
+            <button class="w-100 btn btn-lg btn-secondary">회원가입</button>
+        </a>
+
+
     </main>
-</body></html>
+</body>
+</html>

@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org" >
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/layout/haeder :: myheader">
 </head>
 
 <body>
-<div class="container">
 
-  <div class="row g-5">
 
-    <div class="col-md-7 col-lg-8">
-      <h4 class="mb-3">회원가입</h4>
-      <form method="POST" class="needs-validation" th:action="@{/user-registration}" th:object="${userSaveRequestDto}" >
-
-        <div class="col-12">
-          <label for="input_username" class="form-label">사용자 ID</label>
-          <input type="text" class="form-control" id="input_username" th:field="*{username}">
-        </div>
-
-        <div class="col-md-6">
-          <label for="inputEmail4" class="form-label">비밀번호</label>
-          <input type="password" class="form-control" id="inputEmail4" th:field="*{password}">
-        </div>
-        <div class="col-md-6">
-          <label for="inputPassword5" class="form-label">비밀번호 확인</label>
-          <input type="password" class="form-control" id="inputPassword5">
-        </div>
-
-        <div class="col-md-6">
-          <label for="inputEmail6" class="form-label">닉네임</label>
-          <input type="text" class="form-control" id="inputEmail6" th:field="*{nickname}">
-        </div>
-
-        <hr class="my-4">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">회원가입</button>
-
-      </form>
+<main class="container">
+    <div id="header" class="join-membership">
+        <h1><label>회원가입</label></h1>
     </div>
-  </div>
-</div>
 
+    <form method="POST" th:action="@{/user-registration}" th:object="${userSaveRequestDto}">
+        <div class="content">
 
+            <div class="row-group">
+
+                <div class="join-row">
+                    <h3 class="join-title"><label>아이디</label></h3>
+                    <span class="ps_box box_right_space">
+              <input type="text" id="username" name="username" class="int" placeholder="아이디" th:field="*{username}">
+            </span>
+                </div>
+
+                <div class="join-row">
+                    <h3 class="join-title"><label>비밀번호</label></h3>
+                    <span class="ps_box box_right_space">
+              <input type="password" id="password" name="password" class="int" placeholder="비밀번호"
+                     th:field="*{password}">
+            </span>
+                </div>
+
+                <div class="join-row">
+                    <h3 class="join-title"><label>비밀번호 확인</label></h3>
+                    <span class="ps_box box_right_space">
+              <input type="password" id="password-confirm" name="password-confirm" class="int" placeholder="비밀번호">
+            </span>
+                </div>
+
+                <div class="join-row">
+                    <h3 class="join-title"><label>닉네임</label></h3>
+                    <span class="ps_box box_right_space">
+              <input type="text" id="nickname" name="nickname" class="int" placeholder="닉네임" th:field="*{nickname}">
+            </span>
+                </div>
+            </div>
+            <hr class="my-4">
+            <button class="w-100 btn btn-primary btn-lg" type="submit">가입하기</button>
+        </div>
+
+    </form>
+</main>
 </body>
 </html>

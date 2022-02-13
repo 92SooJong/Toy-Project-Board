@@ -2,31 +2,31 @@
       xmlns:th="http://www.thymeleaf.org" >
 <head th:replace="/layout/haeder :: myheader">
 </head>
-    <body>
-        <div>
-            <h1>게시글 작성</h1>
-            <form method="POST" th:action="@{/post}" th:object="${postSaveRequestDto}" >
-                <div class="mb-3">
-                    <label for="input_title" class="form-label">제목</label>
-                    <input type="text" class="form-control" id="input_title" th:field="*{title}">
-                </div>
+<body>
+    <div>
+        <h1>게시글 작성</h1>
+        <form method="POST" th:action="@{/post}" th:object="${postSaveRequestDto}" >
+            <div class="mb-3">
+                <label for="input_title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="input_title" th:field="*{title}">
+            </div>
 
-                <div class="mb-3">
-                    <label for="input_password" class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" id="input_password" th:field="*{postPassword}">
-                </div>
+            <div class="mb-3">
+                <label for="input_password" class="form-label">비밀번호</label>
+                <input type="password" class="form-control" id="input_password" th:field="*{postPassword}">
+            </div>
 
-                <div class="mb-3">
-                    <label for="textarea_content" class="form-label">내용</label>
-                    <textarea class="form-control" id="textarea_content" rows="3" th:field="*{content}"></textarea>
-                </div>
+            <div class="mb-3">
+                <label for="textarea_content" class="form-label">내용</label>
+                <textarea class="form-control" id="textarea_content" rows="3" th:field="*{content}"></textarea>
+            </div>
 
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mb-3">등록</button>
-                </div>
-            </form>
-        </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">등록</button>
+            </div>
+        </form>
+    </div>
 
 
-    </body>
+</body>
 </html>
