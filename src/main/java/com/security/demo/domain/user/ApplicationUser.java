@@ -45,7 +45,9 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
 
     }
 
-
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public String getPassword() {

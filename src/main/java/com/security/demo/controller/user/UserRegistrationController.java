@@ -7,26 +7,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/user-registration")
+@RequestMapping
 public class UserRegistrationController {
 
-    private UserRegistrationService userRegistrationService;
 
-    public UserRegistrationController(UserRegistrationService userRegistrationService) {
-        this.userRegistrationService = userRegistrationService;
-    }
-
-    @GetMapping
-    public String registerForm(Model model) {
-        model.addAttribute("userSaveRequestDto" , new UserSaveRequestDto());
+    @GetMapping("/user-registration-form")
+    public String registerForm() {
         return "/login/userRegistration";
     }
 
-    @PostMapping
-    public String processRegistration(@ModelAttribute UserSaveRequestDto userSaveRequestDto) {
-
-        userRegistrationService.registerUser(userSaveRequestDto);
-        return "redirect:/login";
-    }
 
 }
