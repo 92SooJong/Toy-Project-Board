@@ -19,26 +19,52 @@
                         <th scope="col">작성자</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr th:each="post : ${posts}">
-                        <td th:text="${post.id}"></td>
-                        <td><a th:href="@{/post/{id}(id=${post.id})}" th:text="${post.title}"></a> </td>
-                        <td th:text="${post.writer}"></td>
-                    </tr>
+                <tbody id="post-table-body">
+
                 </tbody>
             </table>
 
 
             <div>
-                <a th:href="@{/post/writer}" ><button class="btn btn-primary">글쓰기</button></a>
+                <a href="/post/writer" ><button class="btn btn-primary">글쓰기</button></a>
                 <form class="form-signin" method="get" action="/logout"> <!-- csrf를 Disable 처리했기때문에 get 사용가능-->
                     <button class="btn btn-secondary btn-sm" type="submit">로그아웃</button>
                 </form>
 
             </div>
-
-
-
         </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script>
+            $( document ).ready(function() {
+                // list 불러오는 ajax 실행
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/v1/posts',
+                    dataType: 'json',
+                    contentType:'application/json; charset=utf-8'
+                }).done(function(json) {
+                    var html = '';
+                    for(var i=0; i<json.length; i++){
+                        html += '<tr>';
+                        html += '<td>'+json[i].id+'</td>';
+                        html += '<td>'+json[i].title+'</td>';
+                        html += '<td>'+json[i].writer+'</td>';
+                        html += '</tr>';
+                    }
+
+                    $("#post-table-body").append(html);
+
+
+                }).fail(function (error) {
+                    console.log("조회실패");
+                    console.log(error);
+                });
+
+
+            });
+        </script>
+
+
+
     </body>
 </html>

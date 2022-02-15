@@ -36,11 +36,11 @@ public class PostService {
     }
 
 
-    public void save(PostSaveRequestDto postSaveRequestDto, String username) {
+    public Long save(PostSaveRequestDto postSaveRequestDto, String username) {
 
         ApplicationUser user = userRepository.findByUsername(username);
         postSaveRequestDto.setApplicationUser(user);
-        postRepository.save(postSaveRequestDto.toEntity(passwordEncoder));
+        return postRepository.save(postSaveRequestDto.toEntity(passwordEncoder)).getId();
     }
 
     public PostReadResponseDto findPostById(Long id) {

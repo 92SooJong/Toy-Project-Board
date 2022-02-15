@@ -15,7 +15,7 @@ public class PostSaveRequestDto {
 
     private String title;
     private String content;
-    private String postPassword;
+    private String password;
     private ApplicationUser applicationUser;
 
 
@@ -25,7 +25,7 @@ public class PostSaveRequestDto {
         return Post.builder()
                 .title(this.title)
                 .content(this.content)
-                .postPassword(passwordEncoder.encode(this.postPassword))
+                .postPassword(passwordEncoder.encode(this.password))
                 .applicationUser(this.applicationUser)
                 .build();
     }

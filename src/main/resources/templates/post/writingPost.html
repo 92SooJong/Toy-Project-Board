@@ -5,28 +5,53 @@
 <body>
     <div>
         <h1>게시글 작성</h1>
-        <form method="POST" th:action="@{/post}" th:object="${postSaveRequestDto}" >
+
             <div class="mb-3">
                 <label for="input_title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="input_title" th:field="*{title}">
+                <input type="text" class="form-control" id="input_title">
             </div>
 
             <div class="mb-3">
                 <label for="input_password" class="form-label">비밀번호</label>
-                <input type="password" class="form-control" id="input_password" th:field="*{postPassword}">
+                <input type="password" class="form-control" id="input_password">
             </div>
 
             <div class="mb-3">
                 <label for="textarea_content" class="form-label">내용</label>
-                <textarea class="form-control" id="textarea_content" rows="3" th:field="*{content}"></textarea>
+                <textarea class="form-control" id="textarea_content" rows="3" ></textarea>
             </div>
 
             <div class="col-auto">
-                <button type="submit" class="btn btn-primary mb-3">등록</button>
+                <button type="submit" class="btn btn-primary mb-3" id="btn-save">등록</button>
             </div>
-        </form>
+
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $('#btn-save').on('click', function () {
+            var data = {
+                title: $('#input_title').val(),
+                password: $('#input_password').val(),
+                content: $('#textarea_content').val()
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/api/v1/post',
+                dataType: 'json',
+                contentType:'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function() {
+                window.location.href = '/post/list';
+            }).fail(function (error) {
 
+                alert(JSON.stringify(error));
+            });
+
+
+
+
+        });
+    </script>
 </body>
 </html>

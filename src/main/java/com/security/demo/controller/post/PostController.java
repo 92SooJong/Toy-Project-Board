@@ -20,29 +20,18 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String getPosts(Model model){
-        model.addAttribute("posts" , postService.findAllDesc());
+    public String getPostListView(){
         return "/post/postList";
     }
 
     @GetMapping("/writer")
-    public String getPostWriter(Model model){
-        model.addAttribute("postSaveRequestDto" , new PostSaveRequestDto());
+    public String getPostWriter(){
         return "/post/writingPost";
     }
 
-    @PostMapping
-    public String addPost(@ModelAttribute PostSaveRequestDto postSaveRequestDto, Authentication authentication){
-        postService.save(postSaveRequestDto, authentication.getName());
-        return "redirect:/post/list";
-    }
 
-    @GetMapping("/{id}")
-    public String getPost(@PathVariable Long id,Model model){
 
-        PostReadResponseDto postReadResponseDto = postService.findPostById(id);
-        model.addAttribute("postReadResponseDto" , postReadResponseDto);
-        return "/post/readingPost";
-    }
+
+
 
 }

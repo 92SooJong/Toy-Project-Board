@@ -22,7 +22,5 @@ class UserLoginControllerTest {
         String body2 = this.testRestTemplate.getForObject("/login", String.class);
         assertThat(body2).contains("로그인하고 시작하기");
 
-
-
     }
 }

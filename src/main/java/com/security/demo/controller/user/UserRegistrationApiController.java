@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserRegistrationApiController {
 
-    private UserRegistrationService userRegistrationService;
+    private final UserRegistrationService userRegistrationService;
 
     public UserRegistrationApiController(UserRegistrationService userRegistrationService) {
         this.userRegistrationService = userRegistrationService;
