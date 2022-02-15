@@ -29,9 +29,4 @@ public class PostController {
         return "/post/writingPost";
     }
 
-
-
-
-
-
 }
