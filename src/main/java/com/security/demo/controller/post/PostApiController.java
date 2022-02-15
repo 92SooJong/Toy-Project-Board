@@ -32,6 +32,9 @@ public class PostApiController {
 
     @PostMapping("/api/v1/post")
     public Long addPost(@RequestBody PostSaveRequestDto postSaveRequestDto, Authentication authentication){
+
+        System.out.println("postSaveRequestDto = " + authentication.getName());
+
         return postService.save(postSaveRequestDto, authentication.getName());
     }
 

@@ -3,34 +3,27 @@
 <head th:replace="/layout/haeder :: myheader">
 </head>
     <body>
-        <div class="container">
+        <div class="container-lg">
             <h1>게시판</h1>
-            <h2>전체 게시글</h2>
-            <table class="table table-horizontal table-bordered">
+            <table class="table">
                 <colgroup>
-                    <col style="width:88px">
+                    <col style="width:20px">
                     <col style="width:118px">
                     <col style="width:80px">
                 </colgroup>
-                <thead class="thead-strong">
+                <thead class="table-primary">
                     <tr id="normalTableTitle">
-                        <th scope="col">게시글 번호</th>
+                        <th scope="col">번호</th>
                         <th scope="col">제목</th>
                         <th scope="col">작성자</th>
                     </tr>
                 </thead>
                 <tbody id="post-table-body">
-
                 </tbody>
             </table>
-
-
-            <div>
-                <a href="/post/writer" ><button class="btn btn-primary">글쓰기</button></a>
-                <form class="form-signin" method="get" action="/logout"> <!-- csrf를 Disable 처리했기때문에 get 사용가능-->
-                    <button class="btn btn-secondary btn-sm" type="submit">로그아웃</button>
-                </form>
-
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="/post/writer" ><button class="btn btn-primary me-md-2">글쓰기</button></a>
+                <a href="/logout" ><button class="btn btn-secondary">로그아웃</button></a>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

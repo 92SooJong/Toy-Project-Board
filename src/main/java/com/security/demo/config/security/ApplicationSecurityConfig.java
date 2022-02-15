@@ -34,6 +34,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 .authorizeRequests() // http요청에 대해 인증 검사를 하겠다
                 .antMatchers("/resources/templates/login/**","/css/*","/js/*").permitAll() // 인증이 필요없는 화면 리소스
+                .antMatchers("/api/**" , "/resources/**").permitAll()// 임시
                 .antMatchers("/login/**","/user-registration-form", "/api/v1/user/**").permitAll() // 인증이 필요없는 API
                 .anyRequest() // 모든요청은
                 .authenticated() // 인증이 되어야한다.
