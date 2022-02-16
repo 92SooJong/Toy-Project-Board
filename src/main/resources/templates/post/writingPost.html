@@ -4,13 +4,14 @@
 </head>
 <body>
     <div class="container-lg" >
-        <h1>게시글 작성</h1>
+        <div class="row">
+            <h1>게시글 작성</h1>
             <div class="mb-3">
                 <label for="input_title" class="form-label">제목</label>
                 <input type="text" class="form-control" id="input_title">
             </div>
 
-            <div class="mb-3">
+            <div class="mb-3 col-auto">
                 <label for="input_password" class="form-label">비밀번호</label>
                 <input type="password" class="form-control" id="input_password">
             </div>
@@ -23,7 +24,7 @@
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary mb-3" id="btn-save">등록</button>
             </div>
-
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
