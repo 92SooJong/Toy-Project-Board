@@ -25,15 +25,13 @@ public class PostApiController {
         return postService.findAllDesc();
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/api/v1/post/{id}")
     public PostReadResponseDto getPost(@PathVariable Long id){
         return postService.findPostById(id);
     }
 
     @PostMapping("/api/v1/post")
     public Long addPost(@RequestBody PostSaveRequestDto postSaveRequestDto, Authentication authentication){
-
-        System.out.println("postSaveRequestDto = " + authentication.getName());
 
         return postService.save(postSaveRequestDto, authentication.getName());
     }
