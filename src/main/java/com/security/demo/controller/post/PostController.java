@@ -29,6 +29,14 @@ public class PostController {
         return "/post/writingPost";
     }
 
+    @GetMapping("/{id}")
+    public String getPostReaderView(@PathVariable("id") String postId, Model model){
+        model.addAttribute("postId",postId );
+        return "/post/readingPost";
+
+
+    }
+
 
 
 

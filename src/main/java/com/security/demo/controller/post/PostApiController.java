@@ -25,7 +25,7 @@ public class PostApiController {
         return postService.findAllDesc();
     }
 
-    @GetMapping("/post/{id}")
+    @GetMapping("/api/v1/post/{id}")
     public PostReadResponseDto getPost(@PathVariable Long id){
         return postService.findPostById(id);
     }
