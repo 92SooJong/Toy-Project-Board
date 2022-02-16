@@ -8,16 +8,16 @@
         <div>
             <h1>게시글 읽기</h1>
                 <div class="mb-3">
-                    <label for="input_title" class="form-label">제목</label>
-                    <input type="text" class="form-control" id="input_title"/>
+                    <label for="input-title" class="form-label">제목</label>
+                    <input type="text" class="form-control" id="input-title"/>
                 </div>
                 <div class="mb-3">
-                    <label for="input_password" class="form-label">닉네임</label>
-                    <input type="text" class="form-control" id="input_password"/>
+                    <label for="input-nickname" class="form-label">닉네임</label>
+                    <input type="text" class="form-control" id="input-nickname"/>
                 </div>
                 <div class="mb-3">
-                    <label for="textarea_content" class="form-label">내용</label>
-                    <textarea class="form-control" id="textarea_content" rows="3">
+                    <label for="textarea-content" class="form-label">내용</label>
+                    <textarea class="form-control" id="textarea-content" rows="3">
                     </textarea>
                 </div>
         </div>
@@ -27,7 +27,23 @@
             $( document ).ready(function() {
                 console.log("읽기 시작");
                 var postId = [[${postId}]];
-                console.log(postId);
+
+                // ajax를 통해서 json 요청
+                $.ajax({
+                    type: 'GET',
+                    url: '/api/v1/post/' + postId,
+                    dataType: 'json',
+                }).done(function(json) {
+                    console.log("게시글 조회 성공")
+                    $("#input-title").val(json.title);
+                    $("#input-nickname").val(json.nickname);
+                    $("#textarea-content").val(json.content);
+                }).fail(function (error) {
+
+                    alert(JSON.stringify(error));
+                });
+
+
             });
         </script>
 
