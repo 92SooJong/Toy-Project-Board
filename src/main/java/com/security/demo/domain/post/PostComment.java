@@ -11,27 +11,26 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-public class Post extends BaseTimeEntity {
+public class PostComment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "post_id")
+    @Column(name = "comment_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "comment_user_id")
     private ApplicationUser applicationUser;
 
-    @NotNull
-    private String title;
-
-    private String content;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     @Builder
-    public Post(ApplicationUser applicationUser, String title, String content) {
+    public PostComment(Long id, ApplicationUser applicationUser, Post post) {
+        this.id = id;
         this.applicationUser = applicationUser;
-        this.title = title;
-        this.content = content;
+        this.post = post;
     }
 
     public Long getId() {
@@ -42,11 +41,15 @@ public class Post extends BaseTimeEntity {
         return applicationUser;
     }
 
-    public String getTitle() {
-        return title;
+    public Post getPost() {
+        return post;
     }
 
-    public String getContent() {
-        return content;
+    public void setApplicationUser(ApplicationUser applicationUser) {
+        this.applicationUser = applicationUser;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

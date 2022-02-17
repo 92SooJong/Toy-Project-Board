@@ -15,17 +15,15 @@ public class PostSaveRequestDto {
 
     private String title;
     private String content;
-    private String password;
     private ApplicationUser applicationUser;
 
 
 
-    public Post toEntity(PasswordEncoder passwordEncoder){
+    public Post toEntity(){
 
         return Post.builder()
                 .title(this.title)
                 .content(this.content)
-                .postPassword(passwordEncoder.encode(this.password))
                 .applicationUser(this.applicationUser)
                 .build();
     }

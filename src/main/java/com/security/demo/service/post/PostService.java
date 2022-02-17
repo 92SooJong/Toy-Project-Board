@@ -38,18 +38,26 @@ public class PostService {
 
     public Long save(PostSaveRequestDto postSaveRequestDto, String username) {
 
-        ApplicationUser user = userRepository.findByUsername(username);
-        postSaveRequestDto.setApplicationUser(user);
-        return postRepository.save(postSaveRequestDto.toEntity(passwordEncoder)).getId();
+        ApplicationUser user = userRepository.findByUsername(username); // 사용자정보 가져오기
+        postSaveRequestDto.setApplicationUser(user); // 사용자 정보 세팅
+        return postRepository.save(postSaveRequestDto.toEntity()).getId(); // Post 테이블에 저장
     }
 
     public PostReadResponseDto findPostById(Long id) {
         Post post = postRepository.findById(id).get();
         return PostReadResponseDto.builder()
+                .postId(id)
                 .title(post.getTitle())
                 .content(post.getContent())
                 .nickname(post.getApplicationUser().getNickName())
                 .build();
-
     }
+
+    public Long deletePostById(Long postId, String username){
+
+        Post post = postRepository.findPostsByUserId(postId, username);
+        postRepository.delete(post);
+        return postId;
+    }
+
 }

@@ -4,48 +4,85 @@
     <link href="/css/signin.css" rel="stylesheet"/>
     <link href="/css/signup.css" rel="stylesheet"/>
 </head>
-    <body>
-        <div>
+<body>
+    <div class="container-lg">
+        <div class="row">
             <h1>게시글 읽기</h1>
-                <div class="mb-3">
-                    <label for="input-title" class="form-label">제목</label>
-                    <input type="text" class="form-control" id="input-title"/>
-                </div>
-                <div class="mb-3">
-                    <label for="input-nickname" class="form-label">닉네임</label>
-                    <input type="text" class="form-control" id="input-nickname"/>
-                </div>
-                <div class="mb-3">
-                    <label for="textarea-content" class="form-label">내용</label>
-                    <textarea class="form-control" id="textarea-content" rows="3">
-                    </textarea>
-                </div>
+
+            <div class="mb-3">
+                <label for="input-title" class="form-label">제목</label>
+                <input type="text" class="form-control" id="input-title"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="input-nickname" class="form-label">닉네임</label>
+                <input type="text" class="form-control" id="input-nickname"/>
+            </div>
+            <div class="mb-3">
+                <label for="textarea-content" class="form-label">내용</label>
+                <textarea class="form-control" id="textarea-content" rows="3">
+                </textarea>
+            </div>
+
+            <input type="hidden" id="post-id" name="post-id">
+            <div class="col-auto">
+                <button class="btn btn-danger mb-3" id="btn-delete">삭제</button>
+            </div>
+
         </div>
+    </div>
 
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <script>
-            $( document ).ready(function() {
-                console.log("읽기 시작");
-                var postId = [[${postId}]];
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        /**
+         * 화면 로딩시
+         */
+        $( document ).ready(function() {
+            console.log("읽기 시작");
+            var postId = [[${postId}]];
 
-                // ajax를 통해서 json 요청
-                $.ajax({
-                    type: 'GET',
-                    url: '/api/v1/post/' + postId,
-                    dataType: 'json',
-                }).done(function(json) {
-                    console.log("게시글 조회 성공")
-                    $("#input-title").val(json.title);
-                    $("#input-nickname").val(json.nickname);
-                    $("#textarea-content").val(json.content);
-                }).fail(function (error) {
-
-                    alert(JSON.stringify(error));
-                });
-
-
+            // ajax를 통해서 json 요청
+            $.ajax({
+                type: 'GET',
+                url: '/api/v1/post/' + postId,
+                dataType: 'json',
+            }).done(function(json) {
+                console.log("게시글 조회 성공")
+                $("#post-id").val(json.postId);
+                $("#input-title").val(json.title);
+                $("#input-nickname").val(json.nickname);
+                $("#textarea-content").val(json.content);
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
             });
-        </script>
+        });
 
-    </body>
+        /**
+         * 게시글 삭제요청
+         */
+        $('#btn-delete').on('click', function () {
+
+            var suffix = [[${postId}]];
+
+            $.ajax({
+                type: 'DELETE',
+                url: '/api/v1/post/' + suffix,
+                dataType: 'json',
+                contentType:'application/json; charset=utf-8',
+            }).done(function() {
+                alert("게시글을 성공적으로 삭제했습니다.");
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+
+
+
+
+        });
+
+
+
+    </script>
+
+</body>
 </html>

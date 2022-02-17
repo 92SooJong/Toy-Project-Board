@@ -13,12 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 public class PostReadResponseDto {
 
+    private Long postId;
     private String title;
     private String content;
     private String nickname;
 
     @Builder
-    public PostReadResponseDto(String title, String content, String nickname) {
+    public PostReadResponseDto(Long postId, String title, String content, String nickname) {
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.nickname = nickname;

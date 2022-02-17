@@ -32,13 +32,15 @@ public class PostApiController {
 
     @PostMapping("/api/v1/post")
     public Long addPost(@RequestBody PostSaveRequestDto postSaveRequestDto, Authentication authentication){
-
         return postService.save(postSaveRequestDto, authentication.getName());
     }
 
+    @DeleteMapping("/api/v1/post/{id}")
+    public Long deletePost(@PathVariable Long id, Authentication authentication){
 
+        return postService.deletePostById(id,authentication.getName());
 
-
+    }
 
 
 }

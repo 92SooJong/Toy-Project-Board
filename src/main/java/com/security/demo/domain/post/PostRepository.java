@@ -10,4 +10,8 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("select p from Post p order by p.id")
     List<Post> findAllDesc();
 
+    @Query("select p from Post p where p.id = ?1 and p.applicationUser.username = ?2")
+    Post findPostsByUserId(Long postId , String username);
+
+
 }
