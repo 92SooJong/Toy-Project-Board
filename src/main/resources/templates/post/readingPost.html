@@ -24,10 +24,12 @@
                 </textarea>
             </div>
 
-            <input type="hidden" id="post-id" name="post-id">
-            <div class="col-auto">
-                <button class="btn btn-danger mb-3" id="btn-delete">삭제</button>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button id="btn-list" class="btn btn-secondary mb-3">목록</button>
+                <button id="btn-delete" class="btn btn-danger mb-3">삭제</button>
             </div>
+
 
         </div>
     </div>
@@ -76,6 +78,13 @@
                 alert(JSON.stringify(error));
             });
 
+        });
+
+        /**
+         * 목록으로 이동
+         */
+        $('#btn-list').on('click', function () {
+            window.location.href = '/post/list';
         });
 
     </script>
