@@ -11,16 +11,16 @@
 
             <div class="mb-3">
                 <label for="input-title" class="form-label">제목</label>
-                <input type="text" class="form-control" id="input-title"/>
+                <input type="text" class="form-control" id="input-title" readonly/>
             </div>
 
             <div class="mb-3">
                 <label for="input-nickname" class="form-label">닉네임</label>
-                <input type="text" class="form-control" id="input-nickname"/>
+                <input type="text" class="form-control" id="input-nickname" readonly />
             </div>
             <div class="mb-3">
                 <label for="textarea-content" class="form-label">내용</label>
-                <textarea class="form-control" id="textarea-content" rows="3">
+                <textarea class="form-control" id="textarea-content" rows="3" readonly>
                 </textarea>
             </div>
 
@@ -71,16 +71,12 @@
                 contentType:'application/json; charset=utf-8',
             }).done(function() {
                 alert("게시글을 성공적으로 삭제했습니다.");
+                window.location.href = '/post/list';
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
 
-
-
-
         });
-
-
 
     </script>
 
