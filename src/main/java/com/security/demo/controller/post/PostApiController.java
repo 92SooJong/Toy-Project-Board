@@ -1,8 +1,6 @@
 package com.security.demo.controller.post;
 
-import com.security.demo.controller.post.dto.PostDto;
-import com.security.demo.controller.post.dto.PostReadResponseDto;
-import com.security.demo.controller.post.dto.PostSaveRequestDto;
+import com.security.demo.controller.post.dto.*;
 import com.security.demo.service.post.PostService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -37,10 +35,18 @@ public class PostApiController {
 
     @DeleteMapping("/api/v1/post/{id}")
     public Long deletePost(@PathVariable Long id, Authentication authentication){
-
         return postService.deletePostById(id,authentication.getName());
-
     }
 
+    @PostMapping("/api/v1/post-comment")
+    public Long addPostComment(@RequestBody PostCommentSaveRequestDto postCommentSaveRequestDto, Authentication authentication){
+
+        return postService.savePostComment(postCommentSaveRequestDto,authentication.getName());
+    }
+
+    @GetMapping("/api/v1/post-comment/{id}")
+    public List<PostCommentResponseDto> getPostComments(@PathVariable Long postId){
+        return postService.getPostComments(postId);
+    }
 
 }

@@ -3,6 +3,24 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/signin.css" rel="stylesheet"/>
     <link href="/css/signup.css" rel="stylesheet"/>
+    <style>
+        .custom-search {
+            position: relative;
+        }
+        .custom-search-input {
+            width: 100%;
+            padding-right: 0px !important;
+            box-sizing: border-box;
+        }
+        .custom-search-botton {
+            position: absolute;
+            top: 0px;
+            bottom: 3px;
+            line-height: 1 !important;
+            z-index: 4;
+        }
+
+    </style>
 </head>
 <body>
     <div class="container-lg">
@@ -23,6 +41,12 @@
                 <textarea class="form-control" id="textarea-content" rows="3" readonly>
                 </textarea>
             </div>
+
+            <div class="input-group custom-search mb-4">
+                <textarea class="form-control custom-search-input" id="textarea-comment" placeholder="댓글쓰기" ></textarea>
+                <button class="btn btn-primary custom-search-botton" id="btn-save-comment">등록</button>
+            </div>
+
 
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -79,6 +103,30 @@
             });
 
         });
+
+        /**
+         *  댓글 저장
+         */
+        $('#btn-save-comment').on('click', function () {
+
+            var data = {
+                commentContent: $('#textarea-comment').val(),
+                postId : [[${postId}]]
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/api/v1/post-comment',
+                dataType: 'json',
+                contentType:'application/json; charset=utf-8',
+                data: JSON.stringify(data)
+            }).done(function() {
+                window.location.reload();
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+
+        });
+
 
         /**
          * 목록으로 이동

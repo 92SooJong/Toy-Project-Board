@@ -1,9 +1,9 @@
 package com.security.demo.service.post;
 
-import com.security.demo.controller.post.dto.PostDto;
-import com.security.demo.controller.post.dto.PostReadResponseDto;
-import com.security.demo.controller.post.dto.PostSaveRequestDto;
+import com.security.demo.controller.post.dto.*;
 import com.security.demo.domain.post.Post;
+import com.security.demo.domain.post.PostComment;
+import com.security.demo.domain.post.PostCommentRepository;
 import com.security.demo.domain.post.PostRepository;
 import com.security.demo.domain.user.ApplicationUser;
 import com.security.demo.domain.user.UserRepository;
@@ -11,9 +11,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class PostService {
@@ -21,11 +23,13 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PostCommentRepository postCommentRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public PostService(PostRepository postRepository, UserRepository userRepository, PasswordEncoder passwordEncoder, PostCommentRepository postCommentRepository) {
         this.postRepository = postRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.postCommentRepository = postCommentRepository;
     }
 
     @Transactional
@@ -61,4 +65,22 @@ public class PostService {
     }
 
 
+    public Long savePostComment(PostCommentSaveRequestDto postCommentSaveRequestDto, String name) {
+
+        ApplicationUser byUsername = userRepository.findByUsername(name);
+        Post byId = postRepository.getById(postCommentSaveRequestDto.getPostId());
+        return postCommentRepository.save(postCommentSaveRequestDto.toEntity(byId,byUsername)).getId();
+
+    }
+
+    public List<PostCommentResponseDto> getPostComments(Long postId) {
+
+        List<PostComment> postCommentsByPostId = postCommentRepository.getPostCommentsByPostId(postId);
+        return postCommentsByPostId.stream().map(postComment -> PostCommentResponseDto.builder()
+                .commentContent(postComment.getCommentContent())
+                .nickname(postComment.getApplicationUser().getNickName())
+                .build())
+                .collect(Collectors.toList());
+
+    }
 }
