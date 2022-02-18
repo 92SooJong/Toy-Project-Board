@@ -1,5 +1,6 @@
 package com.security.demo.config.security;
 
+import com.security.demo.service.user.UserRegistrationService;
 import com.security.demo.service.user.UserRepositoryUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +21,12 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final UserRepositoryUserDetailsService userRepositoryUserDetailsService;
 
+
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, UserRepositoryUserDetailsService userRepositoryUserDetailsService) {
         this.passwordEncoder = passwordEncoder;
         this.userRepositoryUserDetailsService = userRepositoryUserDetailsService;
-    }
 
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -46,9 +48,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .passwordParameter("password")
                 .and()
                 .rememberMe()
-                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21))
-                    .key("somethingverysecured")//  default 14일 이지만 21일로 기간을 늘렸다.
+                    .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21)) //  default 14일 이지만 21일로 기간을 늘렸다.
+                    .key("somethingverysecured")
                     .rememberMeParameter("remember-me")
+                    .userDetailsService(userRepositoryUserDetailsService)
                 .and()
                 .logout()
                     .logoutUrl("/logout")
