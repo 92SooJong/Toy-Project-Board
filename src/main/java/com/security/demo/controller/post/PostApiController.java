@@ -45,8 +45,8 @@ public class PostApiController {
     }
 
     @GetMapping("/api/v1/post-comment/{id}")
-    public List<PostCommentResponseDto> getPostComments(@PathVariable Long postId){
-        return postService.getPostComments(postId);
+    public List<PostCommentResponseDto> getPostComments(@PathVariable Long id){
+        return postService.getPostComments(id);
     }
 
 }

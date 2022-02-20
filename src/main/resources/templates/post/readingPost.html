@@ -41,18 +41,12 @@
                 <textarea class="form-control" id="textarea-content" rows="3" readonly>
                 </textarea>
             </div>
+            <div id="div-comment">
 
-<!--            <div class="mb-3 border border-secondary rounded gx-3">-->
-<!--                <span>이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다.-->
-<!--                이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은-->
-<!--                    이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 이것은 코멘트입니다이것은 코멘트입니다이것은 코멘트입니다이것은 </span>-->
-<!--            </div>-->
-<!--            <div class="mb-3 border border-secondary rounded gx-3">-->
-<!--                이것은 코멘트입니다.-->
-<!--            </div>-->
-<!--            <div class="mb-3 border border-secondary rounded gx-3">-->
-<!--                이것은 코멘트입니다.-->
-<!--            </div>-->
+            </div>
+
+
+
 
             <div class="input-group custom-search mb-4">
                 <textarea class="form-control custom-search-input" id="textarea-comment" placeholder="댓글쓰기" ></textarea>
@@ -77,12 +71,10 @@
          */
         $( document ).ready(function() {
             console.log("읽기 시작");
-            var postId = [[${postId}]];
-
             // ajax를 통해서 json 요청
             $.ajax({
                 type: 'GET',
-                url: '/api/v1/post/' + postId,
+                url: '/api/v1/post/' + [[${postId}]],
                 dataType: 'json',
             }).done(function(json) {
                 console.log("게시글 조회 성공")
@@ -93,6 +85,10 @@
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
+
+            // 댓글 가져오기
+            reloadComments([[${postId}]]);
+
         });
 
         /**
@@ -132,11 +128,13 @@
                 contentType:'application/json; charset=utf-8',
                 data: JSON.stringify(data)
             }).done(function() {
-                window.location.reload();
+                // 댓글불러오기 재실행
+
+                reloadComments([[${postId}]]);
+                $('#textarea-comment').val('');
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
-
         });
 
 
@@ -146,6 +144,38 @@
         $('#btn-list').on('click', function () {
             window.location.href = '/post/list';
         });
+
+        // 댓글 다시 불러오기
+        function reloadComments(postId) {
+
+            removeAllChildNodes('div-comment');
+            $.ajax({
+                type: 'GET',
+                url: '/api/v1/post-comment/' + postId,
+                dataType: 'json',
+            }).done(function(json) {
+                console.log("댓글 가져오기 완료")
+                console.log(json)
+                var html = '';
+                for(var i=0; i<json.length; i++){
+                    html += '<div class="mb-3 border rounded gx-3">';
+                    html += '<small class="mx-2">' + json[i].nickname+ '</small>';
+                    html += '<p class="mx-2">'+json[i].commentContent+'</p>';
+                    html += '</div>';
+                }
+                $('#div-comment').append(html);
+
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        }
+
+        function removeAllChildNodes(compoentId) {
+            const parent = document.querySelector('#' + compoentId);
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
 
     </script>
 
