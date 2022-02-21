@@ -1,29 +1,57 @@
 package com.security.demo.controller.user;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.controller.user.dto.UserSaveRequestDto;
+import com.security.demo.domain.user.ApplicationUser;
 import com.security.demo.domain.user.UserRepository;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserRegistrationApiControllerTest {
 
     @Autowired private UserRepository userRepository;
-    @Autowired private PasswordEncoder passwordEncoder;
-
+    @Autowired private WebApplicationContext context;
     @LocalServerPort
     private int port;
 
     private MockMvc mockMvc;
 
+
+
+    @BeforeEach
+    public void beforeTest(){
+        mockMvc = MockMvcBuilders
+                    .webAppContextSetup(context)
+                    .apply(springSecurity())
+                    .build();
+    }
+
+    @AfterEach
+    public void afterTest(){
+
+        ApplicationUser testUsername = userRepository.findByUsername("testUsername");
+        userRepository.delete(testUsername);
+
+    }
+
     @Test
-    void processRegistration() {
+    void canRegisterUser() throws Exception {
 
         String username = "testUsername";
         String nickname = "testNickname";
@@ -36,12 +64,13 @@ class UserRegistrationApiControllerTest {
 
         String url = "http://localhost:" + port + "/api/v1/user";
 
+        mockMvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(new ObjectMapper().writeValueAsString(userSaveRequestDto)))
+                .andExpect(status().isOk());
 
-
-
-
-
-
+        ApplicationUser byUsername = userRepository.findByUsername(username);
+        assertThat(byUsername.getUsername()).isEqualTo(username);
 
 
     }
