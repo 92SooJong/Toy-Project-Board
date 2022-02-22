@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name = "APPLICATION_USER")
 public class ApplicationUser extends BaseTimeEntity implements UserDetails {
 
 
