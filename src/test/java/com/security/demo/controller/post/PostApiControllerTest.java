@@ -1,60 +1,54 @@
 package com.security.demo.controller.post;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.security.demo.controller.post.dto.PostReadResponseDto;
+import com.security.demo.controller.post.dto.PostCommentSaveRequestDto;
 import com.security.demo.controller.post.dto.PostSaveRequestDto;
 import com.security.demo.domain.post.Post;
+import com.security.demo.domain.post.PostComment;
+import com.security.demo.domain.post.PostCommentRepository;
 import com.security.demo.domain.post.PostRepository;
 import com.security.demo.domain.user.ApplicationUser;
 import com.security.demo.domain.user.UserRepository;
+import lombok.Builder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.env.MockEnvironment;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import javax.swing.*;
-import javax.transaction.Transactional;
+
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@AutoConfigureJsonTesters
 @ActiveProfiles("test")
 class PostApiControllerTest {
 
     @Autowired private PostRepository postRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private PostCommentRepository postCommentRepository;
     @Autowired private WebApplicationContext context;
-    @Autowired private PasswordEncoder passwordEncoder;
+
     @LocalServerPort private int port;
 
     private MockMvc mockMvc;
@@ -78,10 +72,20 @@ class PostApiControllerTest {
 
     }
 
+    @AfterEach
+    public void cleanUp(){
+        // 지우는 순서도 중요하다
+        postCommentRepository.deleteAll();
+        postRepository.deleteAll();
+        userRepository.deleteAll();
+
+    }
+
+
 
 
     @Test
-    @WithMockUser(roles = "USER") // USER 권한 가진 테스트용 사용자
+    @WithMockUser(roles = "USER", username = "testUsername") // USER 권한 가진 테스트용 사용자
     // @Transactional // TODO - JPA의 LAZY 개념 이해하기 : 없으면 LazyInitializationException - no session 에러 발생함!
     void canGetPost() throws Exception {
 
@@ -106,7 +110,7 @@ class PostApiControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER") // USER 권한 가진 테스트용 사용자
+    @WithMockUser(roles = "USER", username = "testUsername") // USER 권한 가진 테스트용 사용자
     void addPost() throws Exception {
         //given
         PostSaveRequestDto postSaveRequestDto = PostSaveRequestDto.builder()
@@ -120,36 +124,110 @@ class PostApiControllerTest {
 
         ObjectMapper om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
-        ResultActions resultActions = mockMvc.perform(post(url)
+        mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(om.writeValueAsString(postSaveRequestDto)));
 
-        String result = resultActions.andReturn().getResponse().getContentAsString();
-        MockHttpServletRequest request = resultActions.andReturn().getRequest();
-        System.out.println("result = " + result);
-        System.out.println("request = " + request.getContentAsString());
+        //then
+        List<Post> allPost = postRepository.findAll();
+        assertThat(allPost.get(0).getTitle()).isEqualTo("testTitle");
+        assertThat(allPost.get(0).getContent()).isEqualTo("testContent");
+
+
+    }
+
+    @Test
+    @WithMockUser(roles = "USER", username = "testUsername") // testUsername으로 검색할 수 있도록하기
+    void deletePost() throws Exception {
+
+        Post savedPost = postRepository.save(Post.builder()
+                .title("testTitle")
+                .content("testContent")
+                .applicationUser(userRepository.findByUsername("testUsername"))
+                .build());
+
+        String url = "http://localhost:" + port + "/api/v1/post/" + savedPost.getId();
+
+
+        mockMvc.perform(delete(url)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+
+        List<Post> all = postRepository.findAll();
+        assertThat(all.size()).isEqualTo(0);
+
+
+    }
+
+    @Test
+    @WithMockUser(roles = "USER", username = "testUsername")
+    void addPostComment() throws Exception {
+
+        //given
+        Post savedPost = postRepository.save(Post.builder()
+                .title("testTitle")
+                .content("testContent")
+                .applicationUser(userRepository.findByUsername("testUsername"))
+                .build());
+
+        PostCommentSaveRequestDto postCommentSaveRequestDto = new PostCommentSaveRequestDto();
+        postCommentSaveRequestDto.setPostId(savedPost.getId());
+        postCommentSaveRequestDto.setCommentContent("testCommentContent");
+
+        // when
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        String url = "http://localhost:" + port + "/api/v1/post-comment";
+        mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(om.writeValueAsString(postCommentSaveRequestDto)));
 
         //then
-        // findedPost = postRepository.getById(1L);
-        //assertThat(findedPost.getId()).isEqualTo(username);
-
-
-    }
-
-    @Test
-    void deletePost() {
-
-
+        List<PostComment> postCommentsByPostId = postCommentRepository.getPostCommentsByPostId(savedPost.getId());
+        assertThat(postCommentsByPostId.get(0).getCommentContent())
+                .isEqualTo(postCommentSaveRequestDto.getCommentContent());
+        assertThat(postCommentsByPostId.get(0).getPost().getId()).isEqualTo(postCommentSaveRequestDto.getPostId());
 
     }
 
     @Test
-    void addPostComment() {
-    }
+    @WithMockUser(roles = "USER", username = "testUsername")
+    void getPostComments() throws Exception {
+        //given
+        Post savedPost = postRepository.save(Post.builder()
+                .title("testTitle")
+                .content("testContent")
+                .applicationUser(userRepository.findByUsername("testUsername"))
+                .build());
 
-    @Test
-    void getPostComments() {
+        PostComment postComment = PostComment.builder()
+                .post(savedPost)
+                .applicationUser(userRepository.findByUsername("testUsername"))
+                .commentContent("testComment")
+                .build();
+        postCommentRepository.save(postComment);
 
+        PostComment postComment2 = PostComment.builder()
+                .post(savedPost)
+                .applicationUser(userRepository.findByUsername("testUsername"))
+                .commentContent("testComment22")
+                .build();
+        postCommentRepository.save(postComment2);
+
+
+        // when
+        ObjectMapper om = new ObjectMapper();
+        om.registerModule(new JavaTimeModule());
+        String url = "http://localhost:" + port + "/api/v1/post-comment/" + savedPost.getId();
+        ResultActions perform = mockMvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[%s].commentContent",0).value("testComment"))
+                .andExpect(jsonPath("$[%s].nickname",0).value("testNickname"));
+
+        //then
+        String contentAsString = perform.andReturn().getResponse().getContentAsString();
+        System.out.println("contentAsString = " + contentAsString);
 
     }
 }
