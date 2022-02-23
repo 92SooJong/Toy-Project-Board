@@ -41,7 +41,7 @@ class UserRegistrationApiControllerTest {
     }
 
     @AfterEach
-    public void tearDown(){
+    public void cleanUp(){
         userRepository.deleteAll();
     }
 
