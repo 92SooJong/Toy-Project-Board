@@ -1,7 +1,6 @@
 package com.security.demo.controller.post;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.security.demo.controller.post.dto.PostCommentSaveRequestDto;
@@ -12,7 +11,6 @@ import com.security.demo.domain.post.PostCommentRepository;
 import com.security.demo.domain.post.PostRepository;
 import com.security.demo.domain.user.ApplicationUser;
 import com.security.demo.domain.user.UserRepository;
-import lombok.Builder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -81,11 +78,8 @@ class PostApiControllerTest {
 
     }
 
-
-
-
     @Test
-    @WithMockUser(roles = "USER", username = "testUsername") // USER 권한 가진 테스트용 사용자
+    @WithMockUser(username = "testUsername") // USER 권한 가진 테스트용 사용자
     // @Transactional // TODO - JPA의 LAZY 개념 이해하기 : 없으면 LazyInitializationException - no session 에러 발생함!
     void canGetPost() throws Exception {
 
@@ -110,7 +104,7 @@ class PostApiControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER", username = "testUsername") // USER 권한 가진 테스트용 사용자
+    @WithMockUser(username = "testUsername") // USER 권한 가진 테스트용 사용자
     void addPost() throws Exception {
         //given
         PostSaveRequestDto postSaveRequestDto = PostSaveRequestDto.builder()
@@ -137,7 +131,7 @@ class PostApiControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER", username = "testUsername") // testUsername으로 검색할 수 있도록하기
+    @WithMockUser(username = "testUsername") // testUsername으로 검색할 수 있도록하기
     void deletePost() throws Exception {
 
         Post savedPost = postRepository.save(Post.builder()
@@ -160,7 +154,7 @@ class PostApiControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER", username = "testUsername")
+    @WithMockUser(username = "testUsername")
     void addPostComment() throws Exception {
 
         //given
@@ -190,15 +184,17 @@ class PostApiControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "USER", username = "testUsername")
+    @WithMockUser(username = "testUsername")
     void getPostComments() throws Exception {
         //given
+        // 게시글 1건
         Post savedPost = postRepository.save(Post.builder()
                 .title("testTitle")
                 .content("testContent")
                 .applicationUser(userRepository.findByUsername("testUsername"))
                 .build());
 
+        // 댓글은 2건 이상 반환될수 있도록 하기
         PostComment postComment = PostComment.builder()
                 .post(savedPost)
                 .applicationUser(userRepository.findByUsername("testUsername"))
@@ -218,16 +214,17 @@ class PostApiControllerTest {
         ObjectMapper om = new ObjectMapper();
         om.registerModule(new JavaTimeModule());
         String url = "http://localhost:" + port + "/api/v1/post-comment/" + savedPost.getId();
-        ResultActions perform = mockMvc.perform(get(url)
+
+        //then 댓글 2건중 첫번째건 검증
+        mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[%s].commentContent",0).value("testComment"))
                 .andExpect(jsonPath("$[%s].nickname",0).value("testNickname"));
 
-        //then
-        String contentAsString = perform.andReturn().getResponse().getContentAsString();
-        System.out.println("contentAsString = " + contentAsString);
+
+
 
     }
 }
