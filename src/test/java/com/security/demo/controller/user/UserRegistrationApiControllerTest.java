@@ -46,7 +46,7 @@ class UserRegistrationApiControllerTest {
 
 
     @BeforeEach
-    public void beforeTest(){
+    public void setup(){
         mockMvc = MockMvcBuilders
                     .webAppContextSetup(context)
                     .apply(springSecurity())
@@ -54,11 +54,8 @@ class UserRegistrationApiControllerTest {
     }
 
     @AfterEach
-    public void afterTest(){
-
-        //ApplicationUser testUsername = userRepository.findByUsername("testUsername");
-        //userRepository.delete(testUsername);
-
+    public void tearDown(){
+        userRepository.deleteAll();
     }
 
     @Test

@@ -15,16 +15,20 @@ public class PostSaveRequestDto {
 
     private String title;
     private String content;
-    private ApplicationUser applicationUser;
+    
 
+    @Builder
+    public PostSaveRequestDto(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
-
-    public Post toEntity(){
+    public Post toEntity(ApplicationUser applicationUSer){
 
         return Post.builder()
                 .title(this.title)
                 .content(this.content)
-                .applicationUser(this.applicationUser)
+                .applicationUser(applicationUSer)
                 .build();
     }
 
