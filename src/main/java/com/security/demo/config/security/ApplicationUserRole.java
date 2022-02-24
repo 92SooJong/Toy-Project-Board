@@ -11,8 +11,8 @@ import static com.security.demo.config.security.ApplicationUserPermission.*;
 public enum ApplicationUserRole {
     // 역할별로 권한을 부여한다
     USER(Sets.newHashSet()),
-    ADMIN(Sets.newHashSet(COURSE_READ,COURSE_WRITE,STUDENT_READ,STUDENT_WRITE)),
-    ADMINTRAINEE(Sets.newHashSet(COURSE_READ,STUDENT_READ));
+    ADMIN(Sets.newHashSet(READ, WRITE));
+
 
     private final Set<ApplicationUserPermission> permissions;
 
@@ -25,6 +25,7 @@ public enum ApplicationUserRole {
     }
 
     public Set<SimpleGrantedAuthority> getGrantedAuthorities(){
+        // 권한
         Set<SimpleGrantedAuthority> permissions = getPermissions().stream()
                 .map(permission -> new SimpleGrantedAuthority(permission.getPermission()))
                 .collect(Collectors.toSet());

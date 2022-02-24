@@ -8,10 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "APPLICATION_USER")
@@ -42,6 +39,9 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
+        System.out.println("id = " + ApplicationUserRole.valueOf(this.role));
+
+        // TODO - 여기 어떻게 동작하는지?
         return ApplicationUserRole.valueOf(this.role).getGrantedAuthorities();
 
     }

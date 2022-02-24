@@ -35,7 +35,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
         http    .csrf().disable()
-                //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // csrf 토큰 확인
+                //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) // 사용자 요청에 대한 csrf 토큰 확인
                 .authorizeRequests() // http요청에 대해 인증 검사를 하겠다
                 .antMatchers("/resources/templates/login/**","/css/*","/js/*").permitAll() // 인증이 필요없는 화면 리소스
                 .antMatchers("/login/**","/user-registration-form", "/api/v1/user/**").permitAll() // 인증이 필요없는 API
@@ -52,19 +52,18 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .tokenValiditySeconds((int)TimeUnit.DAYS.toSeconds(21)) //  default 14일 이지만 21일로 기간을 늘렸다.
                     .key("remebermekey")
                     .rememberMeParameter("remember-me")
-                    .userDetailsService(userRepositoryUserDetailsService)
+                    .userDetailsService(userRepositoryUserDetailsService) //
                 .and()
                 .logout()
                     .logoutUrl("/logout")
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
-                    .deleteCookies("JSESSIONID", "remember-me") // 로그아웃하면 2개의 쿠키를 삭제한다
+                    .deleteCookies("JSESSIONID", "remember-me") // 로그아웃하면 2개의 정보를 서버에서 삭제한다
                     .logoutSuccessUrl("/login"); // 로그아웃 성공시 로그인 페이지로 이동
-        
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth){
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
