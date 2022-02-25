@@ -21,18 +21,18 @@ public class PostController {
 
     @GetMapping("/list")
     public String getPostListView(){
-        return "/post/postList";
+        return "post/postList";
     }
 
     @GetMapping("/writer")
     public String getPostWriter(){
-        return "/post/writingPost";
+        return "post/writingPost";
     }
 
     @GetMapping("/{id}")
     public String getPostReaderView(@PathVariable("id") String postId, Model model){
         model.addAttribute("postId",postId );
-        return "/post/readingPost";
+        return "post/readingPost";
     }
 
 

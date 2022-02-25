@@ -13,7 +13,7 @@ public class UserRegistrationController {
 
     @GetMapping("/user-registration-form")
     public String registerForm() {
-        return "/login/userRegistration";
+        return "login/userRegistration";
     }
 
 
