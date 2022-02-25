@@ -1,6 +1,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" >
-<head th:replace="/layout/haeder :: myheader">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/signin.css" rel="stylesheet"/>
+    <link href="/css/signup.css" rel="stylesheet"/>
 </head>
     <body>
         <div class="container-lg">
@@ -46,12 +53,9 @@
                         html += '<td>'+json[i].writer+'</td>';
                         html += '</tr>';
                     }
-
                     $("#post-table-body").append(html);
-
-
                 }).fail(function (error) {
-                    console.log("조회실패");
+                    alert("조회실패");
                     console.log(error);
                 });
 
