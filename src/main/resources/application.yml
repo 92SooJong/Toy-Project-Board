@@ -7,3 +7,7 @@ spring:
   profiles:
     include:
       - db
+  thymeleaf:
+    prefix: classpath:/templates
+
+
