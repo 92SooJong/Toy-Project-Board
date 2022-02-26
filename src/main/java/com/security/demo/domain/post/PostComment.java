@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
+@Table(name = "post_comment")
 public class PostComment extends BaseTimeEntity {
 
     @Id

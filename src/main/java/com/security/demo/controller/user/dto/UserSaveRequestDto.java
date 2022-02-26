@@ -24,7 +24,7 @@ public class UserSaveRequestDto {
         return ApplicationUser.builder()
                 .username(username)
                 .password(passwordEncoder.encode(password))
-                .nickName(nickname)
+                .nickname(nickname)
                 .role("USER") // role은 USER로 하드코딩
                 .build();
     }

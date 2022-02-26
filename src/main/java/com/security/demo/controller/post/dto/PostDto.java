@@ -11,7 +11,7 @@ public class PostDto {
 
     public PostDto(Post post) {
         this.id = post.getId();
-        this.writer = post.getApplicationUser().getNickName();
+        this.writer = post.getApplicationUser().getNickname();
         this.title = post.getTitle();
         this.content = post.getContent();
     }

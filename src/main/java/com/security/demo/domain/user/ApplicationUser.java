@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Table(name = "APPLICATION_USER")
+@Table(name = "application_user")
 public class ApplicationUser extends BaseTimeEntity implements UserDetails {
 
 
@@ -22,14 +22,14 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
 
     private String username;
     private String password;
-    private String nickName;
+    private String nickname;
     private String role;
 
     @Builder
-    public ApplicationUser(String username, String password, String nickName, String role) {
+    public ApplicationUser(String username, String password, String nickname, String role) {
         this.username = username;
         this.password = password;
-        this.nickName = nickName;
+        this.nickname = nickname;
         this.role = role;
     }
 
@@ -84,7 +84,7 @@ public class ApplicationUser extends BaseTimeEntity implements UserDetails {
         return role;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getNickname() {
+        return nickname;
     }
 }

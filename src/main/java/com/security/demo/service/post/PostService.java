@@ -52,7 +52,7 @@ public class PostService {
                 .postId(id)
                 .title(post.getTitle())
                 .content(post.getContent())
-                .nickname(post.getApplicationUser().getNickName())
+                .nickname(post.getApplicationUser().getNickname())
                 .build();
     }
 
@@ -77,7 +77,7 @@ public class PostService {
         List<PostComment> postCommentsByPostId = postCommentRepository.getPostCommentsByPostId(postId);
         return postCommentsByPostId.stream().map(postComment -> PostCommentResponseDto.builder()
                 .commentContent(postComment.getCommentContent())
-                .nickname(postComment.getApplicationUser().getNickName())
+                .nickname(postComment.getApplicationUser().getNickname())
                 .build())
                 .collect(Collectors.toList());
 
