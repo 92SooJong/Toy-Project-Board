@@ -62,7 +62,7 @@ class PostApiControllerTest {
         ApplicationUser applicationUser = ApplicationUser.builder()
                 .username("testUsername")
                 .password("testPassword")
-                .nickName("testNickname")
+                .nickname("testNickname")
                 .role("USER")
                 .build();
         userRepository.save(applicationUser);
