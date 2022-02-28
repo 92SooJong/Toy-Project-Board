@@ -9,7 +9,7 @@ sudo chmod u+x $PROJECT_PATH/gradlew
 
 echo "> Start Build"
 
-.$PROJECT_PATH/gradlew build
+$PROJECT_PATH/gradlew build
 
 echo "> copy Jar"
 cp $PROJECT_PATH/build/libs/*jar $JAR_PATH/
