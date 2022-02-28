@@ -6,6 +6,7 @@ PROJECT_PATH=/home/ec2-user/toy-project-board/deploy/project
 echo "> Start Build"
 
 cd $PROJECT_PATH
+sudo chmod ugo+rwx gradlew
 sudo ./gradlew build
 
 echo "> copy Jar"
