@@ -16,8 +16,8 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public String profile(){
-        List<String> profiles = Arrays.asList(env.getActiveProfiles());
-        List<String> realProfiles = Arrays.asList("db", "db1", "db2");
+        List<String> profiles = Arrays.asList(env.getActiveProfiles()); // 현재 실행중인 Profile을 가져온다
+        List<String> realProfiles = Arrays.asList("db", "real1", "real2");
 
         String defaultProfile = profiles.isEmpty() ? "default" : profiles.get(0);
         return profiles.stream()
