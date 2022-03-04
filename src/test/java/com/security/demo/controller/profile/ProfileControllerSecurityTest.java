@@ -29,21 +29,10 @@ class ProfileControllerSecurityTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    private MockMvc mockMvc;
-    @Autowired private WebApplicationContext context;
-
-    @BeforeEach
-    public void beforeTest(){
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .addFilters(new CharacterEncodingFilter("UTF-8", true)) // 한글깨짐 방지
-                .apply(springSecurity())
-                .build();
-    }
 
     @Test
     public void canAccessToProfileWithoutAuthorization(){
-        String expected = "db";
+        String expected = "default";
 
         ResponseEntity<String> response = testRestTemplate.getForEntity("/profile", String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
