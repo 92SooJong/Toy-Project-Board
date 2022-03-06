@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 JAR_PATH=/home/ec2-user/toy-project-board/deploy
 PROJECT_PATH=/home/ec2-user/toy-project-board/deploy/project
-ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH)
-source ${ABSDIR}/profile.sh
+ABSPATH=$(readlink -f $0) # 현재파일이 속한 심볼릭 링크를 끝까지 탐색한 결과를 반환한다.
+ABSDIR=$(dirname $ABSPATH) # 현재 파일이 속한 경로를 반환한다
+source ${ABSDIR}/profile.sh # profile.sh를 실행한다.
 
 
 echo "> Start Build"
@@ -24,6 +24,7 @@ IDLE_PROFILE=$(find_idle_profile)
 
 echo ">Run $JAR_NAME with IDLE_PROFILE"
 
+# application-db.yml 로딩 및 $IDLE_PROFILE profile 선택
 nohup java -jar -Dspring.config.location=/home/ec2-user/toy-project-board/application-db.yml -Dspring.profiles.active=$IDLE_PROFILE \
 $JAR_PATH/$JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
 
