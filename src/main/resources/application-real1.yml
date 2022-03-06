@@ -8,4 +8,5 @@ spring:
   profiles:
     include:
       - db
-
+server:
+  port: 8081

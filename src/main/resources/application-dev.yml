@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    username: hsz3855
-    password: gktnwhddlek1!
-    url: jdbc:mariadb://rds-spring-boot-aws.crcylyjc725y.ap-northeast-2.rds.amazonaws.com:3306/spring_toyproject_database
-    driver-class-name: org.mariadb.jdbc.Driver
