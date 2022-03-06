@@ -13,7 +13,7 @@ echo "> copy Jar"
 cp $PROJECT_PATH/build/libs/*jar $JAR_PATH/
 
 echo "> Run Jar"
-nohup java -jar -Dspring.config.location=/home/ec2-user/toy-project-board/application-db.yml $JAR_PATH/demo-0.0.1-SNAPSHOT.jar > $JAR_PATH/nohup.out 2>&1 &
+nohup java -jar -Dspring.config.location=/home/ec2-user/toy-project-board/application-prod.yml $JAR_PATH/demo-0.0.1-SNAPSHOT.jar > $JAR_PATH/nohup.out 2>&1 &
 
 
 sudo chmod u+rw /home/ec2-user/toy-project-board/deploy/project/gradlew
