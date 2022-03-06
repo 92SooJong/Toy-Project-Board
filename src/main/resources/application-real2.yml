@@ -9,5 +9,5 @@ spring:
     include:
       - db
 server:
-  port: 8081
+  port: 8082
 
