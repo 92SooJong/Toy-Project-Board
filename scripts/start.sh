@@ -2,18 +2,28 @@
 
 JAR_PATH=/home/ec2-user/toy-project-board/deploy
 PROJECT_PATH=/home/ec2-user/toy-project-board/deploy/project
+ABSPATH=$(readlink -f $0)
+ABSDIR=$(dirname $ABSPATH)
+source ${ABSDIR}/profile.sh
+
 
 echo "> Start Build"
 
-cd $PROJECT_PATH
-sudo chmod ugo+rwx gradlew
-sudo ./gradlew build
+cd $PROJECT_PATH # 프로젝트가 저장된 경로로 이동
+sudo chmod ugo+rwx gradlew # 권한부여
+sudo ./gradlew build # 빌드시작
 
 echo "> copy Jar"
-cp $PROJECT_PATH/build/libs/*jar $JAR_PATH/
+cp $PROJECT_PATH/build/libs/*jar $JAR_PATH/ # jar 파일을 복사
 
-echo "> Run Jar"
-nohup java -jar -Dspring.config.location=/home/ec2-user/toy-project-board/application-db.yml $JAR_PATH/demo-0.0.1-SNAPSHOT.jar > $JAR_PATH/nohup.out 2>&1 &
+JAR_NAME=$(ls -tr $JAR_PATH/*.jar | tail -n 1) # 실행할 Jar명 가져오기
 
+echo "> Run $JAR_NAME"
 
-sudo chmod u+rw /home/ec2-user/toy-project-board/deploy/project/gradlew
+IDLE_PROFILE=$(find_idle_profile)
+
+echo ">Run $JAR_NAME with IDLE_PROFILE"
+
+nohup java -jar -Dspring.config.location=/home/ec2-user/toy-project-board/application-db.yml -Dspring.profiles.active=$IDLE_PROFILE \
+$JAR_PATH/$JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
+
