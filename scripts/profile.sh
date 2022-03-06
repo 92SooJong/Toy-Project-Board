@@ -6,7 +6,7 @@ function find_idle_profile(){
   # 80번 포트는 현재 8080으로 매핑되어 있다.
   RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/porfile)
 
-  if [ ${RESPONSE_CODE} -ge 400 ] # 400보다 응답값이 크면 에러
+  if [ "${RESPONSE_CODE}" -ge 400 ] # 400보다 응답값이 크면 에러
     then
       CURRENT_PROFILE=real2
     else
@@ -25,7 +25,7 @@ function find_idle_profile(){
 
 function find_idle_port(){
 
-  IDLE_PROFILE=$(find_idle_profile)
+  IDLE_PROFILE="$(find_idle_profile)"
 
   if [ "${IDLE_PROFILE}" == real1 ]
   then
