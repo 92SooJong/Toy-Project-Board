@@ -4,7 +4,7 @@ ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname "$ABSPATH")
 source "${ABSDIR}"/profile.sh
 
-echo "Profile을 풀러옵니다. ${ABSDIR}/profile.sh"
+echo "Profile을 풀러옵니다. $ABSDIR/profile.sh"
 
 
 IDLE_PORT="$(find_idle_port)"
