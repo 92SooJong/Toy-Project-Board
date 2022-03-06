@@ -1,36 +1,38 @@
 #!/usr/bin/env bash
 
-function find_idle_profile() {
+# bash는 return value가 안되니 *제일 마지막줄에 echo로 해서 결과 출력*후, 클라이언트에서 값을 사용한다
 
-  # http://localhost/porfile에 요청을 보내서 응답값을 받아온다.
-  # 80번 포트는 현재 8080으로 매핑되어 있다.
-  RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/porfile)
+# 쉬고 있는 profile 찾기: real1이 사용중이면 real2가 쉬고 있고, 반대면 real1이 쉬고 있음
+function find_idle_profile()
+{
+    RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/profile)
 
-  if [ "${RESPONSE_CODE}" -ge 400 ] # 400보다 응답값이 크면 에러
+    if [ ${RESPONSE_CODE} -ge 400 ] # 400 보다 크면 (즉, 40x/50x 에러 모두 포함)
     then
-      CURRENT_PROFILE=real2
+        CURRENT_PROFILE=real2
     else
-      CURRENT_PROFILE=$(curl -s http://localhost/profile)
-  fi
+        CURRENT_PROFILE=$(curl -s http://localhost/profile)
+    fi
 
-  if [ "${CURRENT_PROFILE}" == real1 ]
-  then
-    IDLE_PROFILE=real2
-  else
-    IDLE_PROFILE=real1
-  fi
+    if [ ${CURRENT_PROFILE} == real1 ]
+    then
+      IDLE_PROFILE=real2
+    else
+      IDLE_PROFILE=real1
+    fi
 
-  echo "${IDLE_PROFILE}"
+    echo "${IDLE_PROFILE}"
 }
 
-function find_idle_port() {
+# 쉬고 있는 profile의 port 찾기
+function find_idle_port()
+{
+    IDLE_PROFILE=$(find_idle_profile)
 
-  IDLE_PROFILE="$(find_idle_profile)"
-
-  if [ "${IDLE_PROFILE}" == real1 ]
-  then
-    echo "8081"
-  else
-    echo "8082"
-  fi
+    if [ ${IDLE_PROFILE} == real1 ]
+    then
+      echo "8081"
+    else
+      echo "8082"
+    fi
 }
