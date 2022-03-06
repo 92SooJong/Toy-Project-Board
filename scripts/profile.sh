@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-function find_idle_profile(){
+function find_idle_profile() {
 
   # http://localhost/porfile에 요청을 보내서 응답값을 받아온다.
   # 80번 포트는 현재 8080으로 매핑되어 있다.
@@ -23,7 +23,7 @@ function find_idle_profile(){
   echo "${IDLE_PROFILE}"
 }
 
-function find_idle_port(){
+function find_idle_port() {
 
   IDLE_PROFILE="$(find_idle_profile)"
 
