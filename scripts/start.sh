@@ -23,6 +23,7 @@ echo "> Run $JAR_NAME"
 IDLE_PROFILE=$(find_idle_profile)
 
 echo ">Run $JAR_NAME with IDLE_PROFILE"
+echo ">IDLE_PROFILE $IDLE_PROFILE"
 
 # application-db.yml 로딩 및 $IDLE_PROFILE profile 선택
 nohup java -jar -Dspring.config.location=/home/ec2-user/toy-project-board/application-db.yml -Dspring.profiles.active=$IDLE_PROFILE $JAR_NAME > $JAR_PATH/nohup.out 2>&1 &
