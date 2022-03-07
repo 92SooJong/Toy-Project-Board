@@ -1,3 +1,5 @@
+server:
+  port: 8082
 spring:
   jpa:
     show-sql: true
@@ -8,6 +10,4 @@ spring:
   profiles:
     include:
       - db
-server:
-  port: 8082
 
