@@ -7,6 +7,9 @@ ABSPATH=$(readlink -f $0) # 현재파일 절대경로 (링크가 있다면 실�
 ABSDIR=$(dirname $ABSPATH) # ABSPATH가 있는 디렉토리 (ABSPATH는 파일명이 포함된 경로이기때문)
 source ${ABSDIR}/profile.sh # profile.sh를 실행한다.
 
+
+sudo rm $PROJECT_PATH/build/libs/*jar
+
 echo "> Start Build"
 
 cd $PROJECT_PATH # 프로젝트가 저장된 경로로 이동
