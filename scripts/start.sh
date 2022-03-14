@@ -22,6 +22,7 @@ echo "> Run $JAR_NAME"
 
 # Docker 컨테이너 생성 및 실행 명령어 (run 명령어)
 IDLE_PROFILE=$(find_idle_profile)
+IDLE_PORT=$(find_idle_port)
 
 echo ">Run $JAR_NAME with IDLE_PROFILE"
 echo ">IDLE_PROFILE $IDLE_PROFILE"
@@ -30,6 +31,6 @@ echo ">IDLE_PROFILE $IDLE_PROFILE"
 JAR_FILE="${JAR_NAME##*/}"
 echo ">JAR_FILE==> $JAR_FILE"
 
-sudo docker build -t toy-project-board:sample --build-arg JAR_FILE=$JAR_FILE --build-arg IDLE_PROFILE=$IDLE_PROFILE $DOCKER_PATH
+sudo docker build -t toy-project-board:sample --build-arg JAR_FILE=$JAR_FILE $DOCKER_PATH
 
-sudo docker run -p 8080:8081 toy-project-board:sample
+sudo docker run -p 8080:${IDLE_PORT}  -e "IDLE_PROFILE=${IDLE_PROFILE}" toy-project-board:sample
