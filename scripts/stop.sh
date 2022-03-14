@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-ABSPATH=$(readlink -f $0)
-ABSDIR=$(dirname $ABSPATH)
-source ${ABSDIR}/profile.sh
+ABSPATH=$(readlink -f $0) # 현재파일 절대경로 (링크가 있다면 실제 경로를 찾도록한다)
+ABSDIR=$(dirname $ABSPATH) # ABSPATH가 있는 디렉토리 (ABSPATH는 파일명이 포함된 경로이기때문)
+source ${ABSDIR}/profile.sh # profile.sh를 실행한다.
 
 IDLE_PORT=$(find_idle_port)
 
