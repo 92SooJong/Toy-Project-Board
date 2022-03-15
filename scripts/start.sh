@@ -16,6 +16,7 @@ cd $PROJECT_PATH # 프로젝트가 저장된 경로로 이동
 sudo chmod ugo+rwx gradlew # 권한부여
 sudo ./gradlew build # 빌드시작
 
+sudo rm $DOCKER_PATH/demo*
 
 echo "> copy Jar"
 cp $PROJECT_PATH/build/libs/*jar $DOCKER_PATH/ # jar 파일을 복사
