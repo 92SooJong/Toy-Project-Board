@@ -16,11 +16,14 @@ cd $PROJECT_PATH # 프로젝트가 저장된 경로로 이동
 sudo chmod ugo+rwx gradlew # 권한부여
 sudo ./gradlew build # 빌드시작
 
+
 echo "> copy Jar"
 cp $PROJECT_PATH/build/libs/*jar $DOCKER_PATH/ # jar 파일을 복사
 
-JAR_NAME=$(ls -tr $DOCKER_PATH/*.jar | tail -n 1) # 실행할 Jar명 가져오기
+echo "> copy Dockerfile"
+cp $PROJECT_PATH/Dockerfile $DOCKER_PATH/ # Dockerfile
 
+JAR_NAME=$(ls -tr $DOCKER_PATH/*.jar | tail -n 1) # 실행할 Jar명 가져오기
 echo "> Run $JAR_NAME"
 
 # Docker 컨테이너 생성 및 실행 명령어 (run 명령어)
