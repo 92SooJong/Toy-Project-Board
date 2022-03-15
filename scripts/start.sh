@@ -40,4 +40,4 @@ echo ">JAR_FILE==> $JAR_FILE"
 
 sudo docker build -t toy-project-board:sample --build-arg JAR_FILE=$JAR_FILE $DOCKER_PATH
 
-sudo docker run -d -p 80:${IDLE_PORT} --name ${IDLE_PROFILE} -e "IDLE_PROFILE=${IDLE_PROFILE}" toy-project-board:sample
+sudo docker run -d -p ${IDLE_PORT}:${IDLE_PORT} --name ${IDLE_PROFILE} -e "IDLE_PROFILE=${IDLE_PROFILE}" toy-project-board:sample
