@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-PROJECT_PATH=/home/ec2-user/toy-project-board/deploy/project
-DOCKER_PATH=/home/ec2-user/toy-project-board/deploy/docker
+PROJECT_PATH=/home/ec2-user/toy-project-board/project
+DOCKER_PATH=/home/ec2-user/toy-project-board/deploy
 
 ABSPATH=$(readlink -f $0) # 현재파일 절대경로 (링크가 있다면 실제 경로를 찾도록한다)
 ABSDIR=$(dirname $ABSPATH) # ABSPATH가 있는 디렉토리 (ABSPATH는 파일명이 포함된 경로이기때문)
