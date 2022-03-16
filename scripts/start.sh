@@ -18,9 +18,6 @@ sudo ./gradlew build # 빌드시작
 
 sudo rm $DOCKER_PATH/demo*
 
-
-
-
 echo "> copy Jar"
 cp $PROJECT_PATH/build/libs/*jar $DOCKER_PATH/ # jar 파일을 복사
 
