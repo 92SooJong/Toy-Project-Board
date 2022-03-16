@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: / # 어떤 파일들을 보낼것인가. /는 루트 하위에 있는 모든 파일을 보내겠다는 뜻
-    destination: /home/ec2-user/toy-project-board/deploy/project # 타겟 EC2의 어떤 경로에 저장할지
+    destination: /home/ec2-user/toy-project-board/project # 타겟 EC2의 어떤 경로에 저장할지
     overwrite: yes # 기존에 파일이 있다면 덮어쓴다.
 #permissions:
 #  - object: /home/ec2-user/app/step3
